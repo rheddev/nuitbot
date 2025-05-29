@@ -1,0 +1,5 @@
+#creeper x: Spawns x Creepers (Max. 100)
+#jack: Spawns a Chicken Jockey, a Water Bucket, a Flint and Steel, and a Crafting Table
+#godsend: Spawns Netherite Armor and Tools
+#chaos: Spawns Wither and Ender Dragon
+#kill: Kills all mobs
