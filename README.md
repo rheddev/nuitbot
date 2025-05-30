@@ -51,8 +51,12 @@ TWITCH_CHANNEL=
 
 When you have everything configured, simply run:
 
-```bash
+```
+# In Linux/MacOS
 python3 src/main.py
+
+# In Windows
+python src/main.py
 ```
 
 ## Creating a Twitch User Access Token
