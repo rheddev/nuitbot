@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NuitBot Activated</title>
+    <style>
+        :root {
+            --primary: rgb(72, 0, 56);
+            --primary-dim: rgba(72, 0, 56, 0.3);
+            --dark-gray: #121212;
+            --mid-gray: #333;
+            --light-gray: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-gray);
+            color: var(--light-gray);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(18, 18, 18, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            max-width: 500px;
+            z-index: 10;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: var(--light-gray);
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 3px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .countdown {
+            font-size: 3.5rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-container {
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 100%;
+            transition: width 5s linear;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(128, 0, 64, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(128, 0, 64, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .grid-overlay::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(128, 0, 64, 0.04) 5px, transparent 5px),
+                linear-gradient(90deg, rgba(128, 0, 64, 0.04) 5px, transparent 5px);
+            background-size: 75px 75px;
+            z-index: 1;
+        }
+        
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(128, 0, 64, 0.15) 0%, rgba(128, 0, 64, 0) 70%);
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            filter: blur(30px);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    <div class="glow"></div>
+    
+    <div class="container">
+        <span class="status">Active</span>
+        <h1>NuitBot Activated</h1>
+        <p>Your NuitBot has been successfully activated and is now running in the background.</p>
+        <p>This window will automatically close in:</p>
+        <div class="countdown" id="countdown">5</div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown timer and auto-close
+        let timeLeft = 5;
+        const countdownElement = document.getElementById('countdown');
+        const progressElement = document.getElementById('progress');
+        
+        // Start progress bar animation
+        setTimeout(() => {
+            progressElement.style.width = '0%';
+        }, 100);
+        
+        // Update countdown every second
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownElement.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.close();
+                // Fallback if window.close() doesn't work
+                setTimeout(() => {
+                    document.body.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--light-gray); font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Window closed. You may now close this tab.</div>';
+                }, 500);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

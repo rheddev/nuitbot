@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Get the real path of this script, even if called through a symlink
+SCRIPT_PATH=$(readlink -f "$0")
+SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
+
+# Change to the actual directory where the script is located
+cd "$SCRIPT_DIR"
+
+# Activate Python virtual environment
+if [ -d ".venv" ]; then
+    source .venv/bin/activate
+fi
+
+# Start the Flask server for authentication
+# Uses the __name__ == "__main__" block now in main.py
+flask --app src/main run
