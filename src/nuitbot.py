@@ -369,6 +369,8 @@ class NuitBot:
 
         while self._running and reconnect_attempts <= max_reconnect_attempts:
             try:
+                # If you aren't using one, just comment the if statement out to prevent blocking
+
                 # Connect to OBS WebSocket server
                 if obs_ws is None or is_closed(obs_ws):
                     obs_ws = await self._websocket_connect(OBS_URL, self._obs_connect)
