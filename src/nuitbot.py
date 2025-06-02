@@ -25,6 +25,10 @@ OBS_PASSWORD = os.getenv("OBS_PASSWORD", "")
 
 OBS_URL = f"ws://{OBS_HOST}:{OBS_PORT}"
 
+# Set to True if you want to connect the websocket client
+ENABLE_LOCAL_WS = False
+ENABLE_OBS_WS = True
+
 def is_closed(ws: Optional[websockets.ClientConnection]) -> bool:
     """Check if a websocket connection is closed.
     
@@ -372,16 +376,18 @@ class NuitBot:
                 # If you aren't using one, just comment the if statement out to prevent blocking
 
                 # Connect to OBS WebSocket server
-                if obs_ws is None or is_closed(obs_ws):
-                    obs_ws = await self._websocket_connect(OBS_URL, self._obs_connect)
-                    if not obs_ws:
-                        print(red("Failed to connect to OBS. Continuing without OBS integration."))
+                if ENABLE_OBS_WS:
+                    if obs_ws is None or is_closed(obs_ws):
+                        obs_ws = await self._websocket_connect(OBS_URL, self._obs_connect)
+                        if not obs_ws:
+                            print(red("Failed to connect to OBS. Continuing without OBS integration."))
                 
                 # Connect to local WebSocket server (if available)
-                if local_ws is None or is_closed(local_ws):
-                    local_ws = await self._websocket_connect("ws://localhost:8765")
-                    if not local_ws:
-                        print(yellow("Local WebSocket server not available. Some features will be disabled."))
+                if ENABLE_LOCAL_WS:
+                    if local_ws is None or is_closed(local_ws):
+                        local_ws = await self._websocket_connect("ws://localhost:8765")
+                        if not local_ws:
+                            print(yellow("Local WebSocket server not available. Some features will be disabled."))
             
                 # Connect to Twitch IRC
                 async with websockets.connect(TWITCH_WS_URI, ping_interval=20, ping_timeout=10) as ws:
@@ -465,8 +471,8 @@ class NuitBot:
                                         print(magenta("Mentality triggered"))
                                         
                                         # Save the message and username
-                                        await write(src("texts", "mentality.txt"), private_message.message)
-                                        await write(src("texts", "mentality_name.txt"), private_message.tags.get("display-name"))
+                                        await write(src("text", "mentality.txt"), private_message.message)
+                                        await write(src("text", "mentality_name.txt"), private_message.tags.get("display-name"))
                                         
                                         # Wait for the scene transition
                                         await asyncio.sleep(3)
@@ -488,7 +494,7 @@ class NuitBot:
                                         print(magenta("Playing sound"))
                                         proc = await asyncio.create_subprocess_exec(
                                             "aplay", 
-                                            src("sounds", "mentality.wav")
+                                            src("sound", "mentality.wav")
                                         )
                                         await proc.wait()  # Wait for sound to finish playing
                                         
@@ -554,13 +560,7 @@ class NuitBot:
 
     async def run(self) -> None:
         """Run the bot and set up signal handlers."""
-        # Only set up signal handlers if we're in the main thread
-        try:
-            loop = asyncio.get_running_loop()
-            for sig in (signal.SIGINT, signal.SIGTERM):
-                loop.add_signal_handler(sig, self._signal_handler)
-        except RuntimeError:
-            # Not in main thread, can't set signal handlers
-            print(yellow("Running in thread - signal handlers unavailable"))
+        # Signal handlers removed as they may cause errors
+        print(yellow("Use Ctrl+C to stop the process"))
         
         await self._run()

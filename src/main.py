@@ -10,7 +10,7 @@ from utils import *
 # Load environment variables
 load_dotenv()
 
-app: Flask = Flask(__name__, template_folder='templates')
+app: Flask = Flask(__name__, template_folder='template', static_folder='static')
 
 # Get Twitch API credentials from environment variables
 CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")

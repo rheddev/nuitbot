@@ -8,30 +8,7 @@ A Twitch chatbot built with Python.
 
 ## Setup Development Environment
 
-### 1. Setup Python Environment
-
-**Linux/macOS:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-**Windows (Command Prompt):**
-```cmd
-python -m venv .venv
-.venv\Scripts\activate.bat
-pip install -r requirements.txt
-```
-
-**Windows (PowerShell):**
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
-
-### 2. Set Up Environment Variables
+### 1. Set Up Environment Variables
 
 Create a `.env` file in the project root directory with the following content:
 
@@ -46,23 +23,42 @@ TWITCH_NICK=
 
 # The Twitch channel you want this chatbot to join (MUST BE IN LOWERCASE)
 TWITCH_CHANNEL=
+
+# Twitch redirect URI (should match the one in your Twitch Developer Console)
+TWITCH_REDIRECT_URI=http://localhost:5000/callback
+
+# OBS WebSocket settings (if you want to control OBS)
+OBS_HOST=localhost
+OBS_PORT=4455
+OBS_PASSWORD=your_obs_password_here
 ```
 
-### 3. Authenticate with Twitch
+### 2. Run Setup Script
 
-Simply run:
+Choose the appropriate script for your operating system:
 
+**Linux/macOS:**
 ```bash
 ./nuitbot
 ```
 
-This will:
-1. Start a local Flask server on port 5000
-2. Open your browser to the authentication page
-3. Guide you through the Twitch authentication process
-4. Store your access and refresh tokens automatically
+**Windows (PowerShell):**
+```powershell
+.\nuitbot.ps1
+```
 
-### 4. Start the Bot
+**Windows (Command Prompt):**
+```cmd
+nuitbot.bat
+```
+
+This will:
+1. Set up the Python virtual environment
+2. Install required dependencies
+3. Start a local Flask server on port 5000
+4. Open your browser to the authentication page
+5. Guide you through the Twitch authentication process
+6. Store your access and refresh tokens automatically
 
 After authentication, the bot will start automatically.
 
