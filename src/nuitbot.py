@@ -1,19 +1,23 @@
-from typing import Any, Optional, Callable
-import requests
-import webbrowser
-from urllib.parse import urlencode
-from utils import *
-from dataclasses import dataclass
-import random
-import os
+# Standard library imports
 import asyncio
+import base64
+import hashlib
+import json
+import os
+import random
+import uuid
+from dataclasses import dataclass
+from typing import Any, Optional
+from urllib.parse import urlencode
+
+# Third-party imports
+import requests
 import websockets
 from websockets import State
-import signal
-import json
-import hashlib
-import base64
-import uuid
+import webbrowser
+
+# Local imports
+from utils import *
 
 # WebSocket URIs and configuration
 TWITCH_WS_URI = "wss://irc-ws.chat.twitch.tv:443"

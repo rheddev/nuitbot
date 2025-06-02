@@ -1,10 +1,14 @@
+# Standard library imports
 import os
-import webbrowser
 import threading
-from flask import Flask, request, redirect, render_template
-from dotenv import load_dotenv
-from nuitbot import NuitBot
 import asyncio
+
+# Third-party imports
+from flask import Flask, request, render_template
+from dotenv import load_dotenv
+
+# Local imports
+from nuitbot import NuitBot
 from utils import *
 
 # Load environment variables
@@ -56,6 +60,3 @@ def callback():
     bot_thread.start()
     
     return render_template('success.html'), 200
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
