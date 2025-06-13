@@ -437,18 +437,14 @@ class NuitBot:
                                         continue
                                     
                                     # Process specific commands
-                                    if command == "!tts":
-                                        response = f"PRIVMSG #{private_message.channel} :MrDestructoid Use my Text to Speech: https://rhed.rhamzthev.com/donate"
-                                        await ws.send(response)
-                                        print(cyan(f"Command: {command}"))
+                                    command_responses = {
+                                        "!tts": "MrDestructoid Use my Text to Speech: https://rhed.rhamzthev.com/donate",
+                                        "!minecraft": "MrDestructoid Join our Minecraft Server: minecraft.rhamzthev.com",
+                                        "!discord": "MrDestructoid Join our Discord: https://discord.gg/jFKFhWBMbb"
+                                    }
                                     
-                                    elif command == "!minecraft" or command == "!mc":
-                                        response = f"PRIVMSG #{private_message.channel} :MrDestructoid Join our Minecraft Server: minecraft.rhamzthev.com"
-                                        await ws.send(response)
-                                        print(cyan(f"Command: {command}"))
-
-                                    elif command == "!discord":
-                                        response = f"PRIVMSG #{private_message.channel} :MrDestructoid Join our Discord: https://discord.gg/jFKFhWBMbb"
+                                    if command in command_responses:
+                                        response = f"PRIVMSG #{private_message.channel} :{command_responses[command]}"
                                         await ws.send(response)
                                         print(cyan(f"Command: {command}"))
 
@@ -456,6 +452,12 @@ class NuitBot:
                                     elif command in ["!watchtime", "!followtime", "!sr"]:
                                         continue
                                 
+                                # elif private_message.message.startswith("!clown"):
+                                    # Trigger Clown makeup
+                                    # Start playing the clown theme
+
+                                    # Turn both after 5 seconds
+
                                 # Handle local WebSocket commands (starting with #)
                                 elif private_message.message.startswith("#"):
                                     if local_ws and is_open(local_ws):
